@@ -1,5 +1,6 @@
 package edu.cnm.deepdive.dicesolitaire.model;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Game {
@@ -14,9 +15,17 @@ public class Game {
   public static final int MAX_SET_COUNT = 10;
   public static final int MAX_SCRATCH_COUNT = 8;
 
+
   private final Random rng;
   private final int[] setCounts = new int[MAX_SET_VALUE - MIN_SET_VALUE + 1];
   private final int[] scratchCounts = new int[NUM_FACES];
+  private final DieState[] dieStates = new DieState[NUM_DICE];
+
+  private GameState gameState;
+  private RollState rollState;
+  private Roll roll;
+
+
 
   public Game(Random rng) {
     this.rng = rng;
@@ -44,4 +53,44 @@ public class Game {
     }
   }
 
-}
+  public static int getSetSize() {
+    return SET_SIZE;
+  }
+
+  public DieState[] getDieStates() {
+    return Arrays.copyOf(dieStates, dieStates.length);
+  }
+
+  public GameState getGameState() {
+    return gameState;
+  }
+
+  public RollState getRollState() {
+    return rollState;
+  }
+
+  public void roll()  {
+    //TODO Check current rollState and gameState.
+    roll = new Roll(rng);
+
+  }
+
+  public Roll getRoll() {
+    return roll;
+  }
+
+  public void setSelected(int die, boolean selected) {
+    //TODO Check current dieStates and rollState.
+    if (dieStates[die] != DieState.UNAVAILABLE) {
+      if (dieStates[die].isSelectable() && selected) {
+
+      } else if (!selected) {
+        //TODO Check current rollState.
+        dieStates[die] = DieState.AVAILABLE;
+      }
+    }
+    }
+
+
+
+  }
